@@ -1,0 +1,22 @@
+import mongoose, { Schema } from "mongoose";
+
+mongoose.connect(process.env.MONGODB_URI);
+mongoose.Promise = global.Promise;
+
+const slangSchema = new Schema(
+  {
+    title: String,
+    description: String,
+    likes: Number,
+    isBookmarked: Boolean,
+    isLiked: Boolean,
+    isApproved: Boolean,
+  },
+  {
+    timestamps: true,
+  }
+);
+
+const Slang = mongoose.models.Slang || mongoose.model("Slang", slangSchema);
+
+export default Slang;
