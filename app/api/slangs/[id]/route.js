@@ -20,7 +20,6 @@ export async function PUT(req, { params }) {
     const updatedSlangData = await Slang.findByIdAndUpdate(id, {
       ...slangData,
     });
-    console.log('updatedSlangData', updatedSlangData);
     return NextResponse.json({ message: "Slang Updated" }, { status: 201 });
   } catch (err) {
     console.log(err);

@@ -8,9 +8,10 @@ const slangSchema = new Schema(
     title: String,
     description: String,
     likes: Number,
-    isBookmarked: Boolean,
-    isLiked: Boolean,
+    isBookmarked: Array,
+    isLiked: Array,
     isApproved: Boolean,
+    userId: String,
   },
   {
     timestamps: true,

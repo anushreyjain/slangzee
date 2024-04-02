@@ -10,8 +10,6 @@ const Navbar = ({ ...property }) => {
   const router = useRouter();
   const handleLoginButton = () =>
     user ? router.push("/api/auth/logout") : router.push("/api/auth/login");
-
-  console.log("user", user);
   return (
     <div className="pt-5 flex items-center justify-between border-b border-customGray-900">
       <Logo />

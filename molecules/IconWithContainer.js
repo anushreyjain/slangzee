@@ -13,7 +13,7 @@ const IconWithContainer = ({
   return (
     <div
       onClick={isClickable ? clickHandler : () => {}}
-      className={` ${containerWidth || "w-5"} ${containerHeight || "h-5"} 
+      className={` ${containerWidth || "w-6"} ${containerHeight || "h-6"} 
    ${
      isClickable ? " cursor-pointer hover:scale-105 active:scale-95" : ""
    }  transition-all duration-200 group

@@ -27,6 +27,9 @@ module.exports = {
         900: "#E9E9E9",
         800: "#D6D6D6",
       },
+      secondary: {
+        900: '#f79d65'
+      },
       customGray: {
         900: "#272727",
         800: "#404040",
