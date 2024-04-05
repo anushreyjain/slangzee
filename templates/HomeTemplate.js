@@ -213,8 +213,8 @@ const HomeTemplate = () => {
             case "saved":
                 dispatch(setLoader(true));
                 try {
-                    const savedSlangs = await getAllSlangs();
-                    // dispatch(setSlangs(allPendingSlangs.allSlangs));
+                    const savedSlangs = await getAllSlangs({ saved: true });
+                    dispatch(setSlangs(savedSlangs.allSlangs));
                 } catch (error) {
                     console.error("Error fetching saved slangs:", error);
                 } finally {
