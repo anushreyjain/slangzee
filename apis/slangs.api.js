@@ -41,3 +41,19 @@ export const likeSlangAPI = async (id) => {
     throw new Error("Failed to like a slang", error);
   }
 };
+
+export const bookmarkedSlangAPI = async (id) => {
+    try {
+        let apiUrl = `http://localhost:3000/api/slangs/${id}/bookmark`;
+        const res = await fetch(apiUrl, {
+            method: "PUT",
+            cache: "no-store",
+        });
+        if (!res.ok) {
+            throw new Error("Failed to bookmark a slang");
+        }
+        return res.json();
+    } catch (error) {
+        throw new Error("Failed to bookmark a slang", error);
+    }
+};
