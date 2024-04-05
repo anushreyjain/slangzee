@@ -1,7 +1,7 @@
 import Heading from "@/atoms/Heading";
 import Text from "@/atoms/Text";
 import IconWithContainer from "@/molecules/IconWithContainer";
-import React, { useEffect, useState } from "react";
+import React from "react";
 
 const Card = ({
   slang,
@@ -48,11 +48,11 @@ const Card = ({
                 handleLikeSlang(e, slang._id);
               }}
               iconColor={slang.isLiked ? "#767676" : "#404040"}
-              iconName={slang.isLiked ? "heart" : "heart-outline"}
+              iconName={slang.isLiked.includes(user._id) ? "heart" : "heart-outline"}
             />
           )}
           <Text variant="caption" className={"text-customGray-700"}>
-            {slang.likes} {!user && "Likes"}
+            {slang.isLiked.length} {!user && "Likes"}
           </Text>
         </div>
 

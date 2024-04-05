@@ -1,6 +1,7 @@
 import { Montserrat } from "next/font/google";
-import { UserProvider } from '@auth0/nextjs-auth0/client';
+import { UserProvider } from "@auth0/nextjs-auth0/client";
 import "./globals.css";
+import Providers from "@/redux/Provider";
 
 const montserrat = Montserrat({ subsets: ["latin"] });
 
@@ -13,7 +14,11 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <UserProvider>
-        <body className={montserrat.className}>{children}</body>
+        <body className={montserrat.className}>
+          <Providers>
+            <div>{children}</div>
+          </Providers>
+        </body>
       </UserProvider>
     </html>
   );

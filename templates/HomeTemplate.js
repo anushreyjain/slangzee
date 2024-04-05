@@ -9,19 +9,29 @@ import React, { useEffect, useState } from "react";
 import Toaster from "@/components/Toaster";
 import { toast } from "react-toastify";
 import { useUser } from "@auth0/nextjs-auth0/client";
-import { getAllSlangs, getSingleSlang } from "@/apis/slangs.api";
+import { getAllSlangs, getSingleSlang, likeSlangAPI } from "@/apis/slangs.api";
 import AddSlangCard from "@/organisms/AddSlangCard";
 import Loader from "@/organisms/Loader";
 import SlangDetailsModal from "@/organisms/SlangDetailsModal";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  addSlang,
+  deleteSlang,
+  likeSlang,
+  setLoader,
+  setSlangs,
+  updateSlang,
+} from "@/redux/slices/slangSlice";
 
 const HomeTemplate = () => {
-  const [slangs, setSlangs] = useState([]);
+  const slangs = useSelector((state) => state.slangs);
+  const loader = useSelector((state) => state.loader);
+  const dispatch = useDispatch();
   const [addSlangModal, setAddSlangModal] = useState(false);
   const [slangDetails, setSlangDetails] = useState({
     slangDetails: null,
     isVisible: false,
   });
-  const [loader, setLoader] = useState(true);
   const [isEdit, setIsEdit] = useState({ id: null, editable: false });
   const { user, error, isLoading } = useUser();
   const [activeTab, setActiveTab] = useState("everything");
@@ -54,15 +64,21 @@ const HomeTemplate = () => {
 
   const handleDeleteSlang = async (e, id) => {
     e.stopPropagation();
-    const slangsAfteDelete = slangs.filter((item) => id !== item._id);
-    setSlangs(slangsAfteDelete);
-    const res = await fetch(`http://localhost:3000/api/slangs/${id}`, {
-      method: "DELETE",
-    });
-    if (!res.ok) {
+
+    try {
+      const res = await fetch(`http://localhost:3000/api/slangs/${id}`, {
+        method: "DELETE",
+      });
+
+      if (!res.ok) {
+        toast("Failed to delete slang");
+      } else {
+        dispatch(deleteSlang(id)); // Dispatch the deleteSlang action with the deleted slang ID
+        toast("Slang Deleted");
+      }
+    } catch (error) {
+      console.error("Error deleting slang:", error);
       toast("Failed to delete slang");
-    } else {
-      toast("Slang Deleted");
     }
   };
 
@@ -80,50 +96,53 @@ const HomeTemplate = () => {
     setAddSlangModal(true);
   };
 
-  const handleLikeSlang = (e, id) => {
+  const handleLikeSlang = async (e, id) => {
     e.stopPropagation();
-    console.log("like", id);
+    try {
+      dispatch(likeSlang({ id, userId: user._id }));
+      const res = await likeSlangAPI(id);
+      if (!res.ok) {
+        console.error("Failed to like a slang", res.error);
+      }
+    } catch (error) {
+      console.error("Failed to like a slang", error);
+    }
   };
 
   const onSubmit = async (data, e) => {
     e.preventDefault();
-    let currentAllSlangs = [...slangs];
+
     if (isEdit.editable) {
-      const updatedSlang = slangs.map((slang) => ({
-        ...slang,
-        title: slang._id === isEdit.id ? data.title : slang.title,
-        description:
-          slang._id === isEdit.id ? data.description : slang.description,
-      }));
-      setSlangs(updatedSlang);
       const res = await fetch(`/api/slangs/${isEdit.id}`, {
         method: "PUT",
         body: JSON.stringify({ data }),
       });
+
       if (!res.ok) {
         //error handling
-        setSlangs(currentAllSlangs);
         toast("Failed to update slang");
       } else {
+        dispatch(
+          updateSlang({
+            id: isEdit.id,
+            title: data.title,
+            description: data.description,
+          })
+        );
         toast("Slang Updated");
       }
     } else {
-      setSlangs((prev) => {
-        return [...prev, data];
-      });
       const res = await fetch("/api/slangs", {
         method: "POST",
         body: JSON.stringify({ data }),
       });
+
       if (!res.ok) {
         // error handling
-        setSlangs(currentAllSlangs);
         toast("Failed to create slang");
       } else {
         const resData = (await res.json())?.data;
-        setSlangs((prev) => {
-          return [...currentAllSlangs, resData];
-        });
+        dispatch(addSlang(resData));
         toast("Slang Created");
       }
     }
@@ -155,10 +174,15 @@ const HomeTemplate = () => {
   const handleActiveTabChange = async (activeTab) => {
     switch (activeTab) {
       case "everything":
-        setLoader(true);
-        const { allSlangs } = await getAllSlangs({ isApproved: "true" });
-        setSlangs(allSlangs);
-        setLoader(false);
+        dispatch(setLoader(true));
+        try {
+          const { allSlangs } = await getAllSlangs({ isApproved: "true" });
+          dispatch(setSlangs(allSlangs));
+        } catch (error) {
+          console.error("Error fetching all slangs:", error);
+        } finally {
+          dispatch(setLoader(false));
+        }
         break;
 
       case "trending":
@@ -166,12 +190,15 @@ const HomeTemplate = () => {
         break;
 
       case "my-creativity":
-        setLoader(true);
-        const mySlangs = await getAllSlangs({
-          mySlangs: true
-        });
-        setSlangs(mySlangs.allSlangs);
-        setLoader(false);
+        dispatch(setLoader(true));
+        try {
+          const mySlangs = await getAllSlangs({ mySlangs: true });
+          dispatch(setSlangs(mySlangs.allSlangs));
+        } catch (error) {
+          console.error("Error fetching user's slangs:", error);
+        } finally {
+          dispatch(setLoader(false));
+        }
         break;
 
       case "saved":
@@ -179,12 +206,15 @@ const HomeTemplate = () => {
         break;
 
       case "submission":
-        setLoader(true);
-        const allPendingSlangs = await getAllSlangs({
-          isApproved: "false",
-        });
-        setSlangs(allPendingSlangs.allSlangs);
-        setLoader(false);
+        dispatch(setLoader(true));
+        try {
+          const allPendingSlangs = await getAllSlangs({ isApproved: "false" });
+          dispatch(setSlangs(allPendingSlangs.allSlangs));
+        } catch (error) {
+          console.error("Error fetching pending slangs:", error);
+        } finally {
+          dispatch(setLoader(false));
+        }
         break;
 
       default:
