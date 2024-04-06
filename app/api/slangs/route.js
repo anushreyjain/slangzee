@@ -49,7 +49,6 @@ export const GET = async (request) => {
         let findPromise = Slang.find(filter);
         if (sortLikes) {
             findPromise = findPromise.sort({ likes: -1 })
-            console.log('inside if', findPromise);
         }
         let allSlangs = await findPromise
         return NextResponse.json({ allSlangs }, { status: 200 });
