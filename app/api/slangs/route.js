@@ -25,6 +25,7 @@ export const GET = async (request) => {
         const mySlangs = params?.get("mySlangs");
         const isApproved = params?.get("isApproved");
         const saved = params?.get("saved");
+        const sortLikes = params?.get("sortLikes");
         const filter = { isApproved: true };
         if (request?.cookies?.get("appSession")?.value) {
             const { user } = await getSession();
@@ -44,7 +45,13 @@ export const GET = async (request) => {
             filter.isApproved = true;
         }
 
-        let allSlangs = await Slang.find(filter);
+
+        let findPromise = Slang.find(filter);
+        if (sortLikes) {
+            findPromise = findPromise.sort({ likes: -1 })
+            console.log('inside if', findPromise);
+        }
+        let allSlangs = await findPromise
         return NextResponse.json({ allSlangs }, { status: 200 });
     } catch (error) {
         return NextResponse.json({ message: "Error", error }, { status: 500 });

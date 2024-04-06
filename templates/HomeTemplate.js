@@ -195,7 +195,15 @@ const HomeTemplate = () => {
                 break;
 
             case "trending":
-                console.log("trending");
+                dispatch(setLoader(true));
+                try {
+                    const sortedSlangs = await getAllSlangs({ isApproved: "true", sortLikes: true });
+                    dispatch(setSlangs(sortedSlangs.allSlangs));
+                } catch (error) {
+                    console.error("Error fetching all slangs:", error);
+                } finally {
+                    dispatch(setLoader(false));
+                }
                 break;
 
             case "my-creativity":
