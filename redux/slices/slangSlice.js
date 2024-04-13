@@ -41,7 +41,7 @@ const slangSlice = createSlice({
             if (slang) {
                 const isAlreadyLiked = slang.isLiked.includes(userId);
                 if (isAlreadyLiked) {
-                    slang.isLiked.pop(userId);
+                    slang.isLiked.splice(slang.isLiked.indexOf(userId), 1);
                 } else {
                     slang.isLiked.push(userId);
                 }
@@ -54,7 +54,7 @@ const slangSlice = createSlice({
             if (slang) {
                 const isAlreadyBookmarked = slang.isBookmarked.includes(userId);
                 if (isAlreadyBookmarked) {
-                    slang.isBookmarked.pop(userId);
+                    slang.isBookmarked.splice(slang.isBookmarked.indexOf(userId), 1);
                 } else {
                     slang.isBookmarked.push(userId);
                 }

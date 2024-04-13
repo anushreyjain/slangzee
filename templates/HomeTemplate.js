@@ -87,10 +87,7 @@ const HomeTemplate = () => {
         e.stopPropagation();
         try {
             dispatch(bookmarkSlang({ id, userId: user._id }));
-            const res = await bookmarkedSlangAPI(id);
-            if (!res.ok) {
-                console.error("Failed to like a slang", res.error);
-            }
+            const res = await bookmarkedSlangAPI(id);  
         } catch (error) {
             console.error("Failed to like a slang", error);
         }
@@ -110,9 +107,6 @@ const HomeTemplate = () => {
         try {
             dispatch(likeSlang({ id, userId: user._id }));
             const res = await likeSlangAPI(id);
-            if (!res.ok) {
-                console.error("Failed to like a slang", res.error);
-            }
         } catch (error) {
             console.error("Failed to like a slang", error);
         }
