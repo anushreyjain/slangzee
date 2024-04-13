@@ -60,6 +60,15 @@ const slangSlice = createSlice({
                 }
             }
         },
+
+
+        approveSlang: (state, action) => {
+            const { id } = action.payload;
+            const slang = state.slangs.find((slang) => slang._id === id);
+            if (slang) {
+                slang.isApproved = true;
+            }
+        },
     },
 });
 
@@ -71,6 +80,7 @@ export const {
     deleteSlang,
     likeSlang,
     bookmarkSlang,
+    approveSlang
 } = slangSlice.actions;
 
 export default slangSlice.reducer;

@@ -9,13 +9,14 @@ import React, { useEffect, useState } from "react";
 import Toaster from "@/components/Toaster";
 import { toast } from "react-toastify";
 import { useUser } from "@auth0/nextjs-auth0/client";
-import { bookmarkedSlangAPI, getAllSlangs, getSingleSlang, likeSlangAPI } from "@/apis/slangs.api";
+import { approveSlangAPI, bookmarkedSlangAPI, getAllSlangs, getSingleSlang, likeSlangAPI } from "@/apis/slangs.api";
 import AddSlangCard from "@/organisms/AddSlangCard";
 import Loader from "@/organisms/Loader";
 import SlangDetailsModal from "@/organisms/SlangDetailsModal";
 import { useDispatch, useSelector } from "react-redux";
 import {
     addSlang,
+    approveSlang,
     bookmarkSlang,
     deleteSlang,
     likeSlang,
@@ -23,9 +24,11 @@ import {
     setSlangs,
     updateSlang,
 } from "@/redux/slices/slangSlice";
+import Text from "@/atoms/Text";
 
 const HomeTemplate = () => {
     const slangs = useSelector((state) => state.slangs);
+    console.log(slangs);
     const loader = useSelector((state) => state.loader);
     const dispatch = useDispatch();
     const [addSlangModal, setAddSlangModal] = useState(false);
@@ -87,7 +90,7 @@ const HomeTemplate = () => {
         e.stopPropagation();
         try {
             dispatch(bookmarkSlang({ id, userId: user._id }));
-            const res = await bookmarkedSlangAPI(id);  
+            const res = await bookmarkedSlangAPI(id);
         } catch (error) {
             console.error("Failed to like a slang", error);
         }
@@ -241,6 +244,7 @@ const HomeTemplate = () => {
         }
     };
 
+
     useEffect(() => {
         handleActiveTabChange(activeTab);
     }, [activeTab]);
@@ -258,6 +262,17 @@ const HomeTemplate = () => {
         setSlangDetails({ slangDetails: null, isVisible: false });
     };
 
+
+    const handleApproveSlang = async (e, id) => {
+        e.stopPropagation();
+        try {
+            dispatch(approveSlang({ id }));
+            const res = await approveSlangAPI(id);
+        } catch (error) {
+            console.error("Failed to approve a slang", error);
+        }
+    }
+
     return (
         <div>
             <Navbar />
@@ -265,7 +280,7 @@ const HomeTemplate = () => {
                 tabs={tabs}
                 activeTab={activeTab}
                 tabHandler={tabHandler}
-                className="mb-10"
+                className="mb-8"
             />
             <Toaster />
             {addSlangModal && (
@@ -281,30 +296,51 @@ const HomeTemplate = () => {
 
             {slangDetails.isVisible && (
                 <SlangDetailsModal
+                    handleApprove={handleApproveSlang}
                     slangDetails={slangDetails.slangDetails}
+                    activeTab={activeTab}
                     closeModal={handleCloseSlangDetailsModal}
                 />
             )}
             {loader ? (
                 <Loader />
             ) : (
-                <div className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10">
-                    {activeTab === "my-creativity" && (
-                        <AddSlangCard handleAddSlang={hanldeOpenAddSlagModal} />
-                    )}
-                    {slangs?.map((slang, index) => (
-                        <Card
-                            handleDeleteSlang={handleDeleteSlang}
-                            handleBookmark={handleBookmark}
-                            handleOpenCard={handleOpenCard}
-                            handleEditSlang={handleEditSlang}
-                            handleLikeSlang={handleLikeSlang}
-                            user={user}
-                            activeTab={activeTab}
-                            key={index}
-                            slang={slang}
-                        />
-                    ))}
+                <div>
+                    {activeTab === 'my-creativity' &&
+                        <Text variant="bodySmall" className={'text-secondary-900 tracking-wide mb-5'}>
+                            NOTE - Slangs created by you will be listed here.
+                        </Text>
+                    }
+
+                    {activeTab === 'saved' &&
+                        <Text variant="bodySmall" className={'text-secondary-900 tracking-wide mb-5'}>
+                            NOTE - Slangs bookmarked by you will be listed here.
+                        </Text>
+                    }
+
+                    {activeTab === 'trending' &&
+                        <Text variant="bodySmall" className={'text-secondary-900 tracking-wide mb-5'}>
+                            NOTE - Slangs will be sorted based on number of likes.
+                        </Text>
+                    }
+                    <div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3  gap-10">
+                        {activeTab === "my-creativity" && (
+                            <AddSlangCard handleAddSlang={hanldeOpenAddSlagModal} />
+                        )}
+                        {slangs?.map((slang, index) => (
+                            <Card
+                                handleDeleteSlang={handleDeleteSlang}
+                                handleBookmark={handleBookmark}
+                                handleOpenCard={handleOpenCard}
+                                handleEditSlang={handleEditSlang}
+                                handleLikeSlang={handleLikeSlang}
+                                user={user}
+                                activeTab={activeTab}
+                                key={index}
+                                slang={slang}
+                            />
+                        ))}
+                    </div>
                 </div>
             )}
         </div>
