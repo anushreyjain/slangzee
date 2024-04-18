@@ -10,7 +10,7 @@ const Logo = ({ width, height, ...property }) => {
   return (
     <div
       onClick={handleLogo}
-      className={`${width || "w-[15rem]"} ${
+      className={`${width || "lg:w-[15rem] w-[10rem]"} ${
         height || "h-[4.625rem]"
       } relative cursor-pointer ${property.className}`}
     >

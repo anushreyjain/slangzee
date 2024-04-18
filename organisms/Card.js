@@ -18,7 +18,7 @@ const Card = ({
             onClick={(e, id) => {
                 handleOpenCard(e, slang._id);
             }}
-            className="rounded-lg border hover:scale-105 
+            className="rounded-lg border lg:hover:scale-105 
     transition-all duration-300 cursor-pointer hover:border-secondary-900 border-customGray-900 py-4 px-5 w-full min-h-[11rem] max-h-[11rem]"
         >
             <div className="flex justify-between items-center gap-x-2">

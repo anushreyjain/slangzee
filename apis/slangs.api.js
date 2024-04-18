@@ -1,12 +1,14 @@
 import { generateApiUrl } from "@/functions/common";
 
+
+
 export const getAllSlangs = async (getAllSlangConfig) => {
     const mySlangs = getAllSlangConfig?.mySlangs;
     const isApproved = getAllSlangConfig?.isApproved;
     const saved = getAllSlangConfig?.saved;
     const sortLikes = getAllSlangConfig?.sortLikes;
     try {
-        let apiUrl = generateApiUrl("slangs", { mySlangs, isApproved, saved, sortLikes });
+        let apiUrl = generateApiUrl("GET_ALL_SLANG", { mySlangs, isApproved, saved, sortLikes });
         const res = await fetch(apiUrl, {
             cache: "no-store",
         });
@@ -18,7 +20,7 @@ export const getAllSlangs = async (getAllSlangConfig) => {
 
 export const getSingleSlang = async (id) => {
     try {
-        let apiUrl = `http://localhost:3000/api/slangs/${id}`;
+        let apiUrl = generateApiUrl("GET_SINGLE_SLANG", {}, { id });
         const res = await fetch(apiUrl, {
             cache: "no-store",
         });

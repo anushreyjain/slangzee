@@ -157,22 +157,22 @@ const HomeTemplate = () => {
     };
 
     const tabs = [
-        { id: 1, title: "Everything", value: "everything" },
-        { id: 2, title: "Trending", value: "trending" },
+        { id: 1, title: "Everything", value: "everything", icon: 'house' },
+        { id: 2, title: "Trending", value: "trending", icon: 'fire' },
     ];
     if (user) {
         if (user.role === "user") {
             tabs.push(
-                { id: 3, title: "My Creativity", value: "my-creativity" },
-                { id: 4, title: "Saved", value: "saved" }
+                { id: 3, title: "My Creativity", value: "my-creativity", icon: 'brush' },
+                { id: 4, title: "Saved", value: "saved", icon: 'bookmark' }
             );
         }
 
         if (user.role === "admin") {
             tabs.push(
-                { id: 3, title: "My Creativity", value: "my-creativity" },
-                { id: 4, title: "Saved", value: "saved" },
-                { id: 5, title: "Submission", value: "submission" }
+                { id: 3, title: "My Creativity", value: "my-creativity", icon: 'brush' },
+                { id: 4, title: "Saved", value: "saved", icon: 'bookmark' },
+                { id: 5, title: "Submission", value: "submission", icon: 'save' }
             );
         }
     }
@@ -274,14 +274,17 @@ const HomeTemplate = () => {
     }
 
     return (
-        <div>
+        <div className="lg:max-w-[112.5rem] w-full">
+
             <Navbar />
-            <Tabs
-                tabs={tabs}
-                activeTab={activeTab}
-                tabHandler={tabHandler}
-                className="mb-8"
-            />
+            <div className="">
+                <Tabs
+                    tabs={tabs}
+                    activeTab={activeTab}
+                    tabHandler={tabHandler}
+                    className="mb-8"
+                />
+            </div>
             <Toaster />
             {addSlangModal && (
                 <SlangForm
@@ -305,7 +308,7 @@ const HomeTemplate = () => {
             {loader ? (
                 <Loader />
             ) : (
-                <div>
+                <div className="h-[calc(100svh-13rem)] lg:h-[calc(100svh-18rem)] overflow-y-auto lg:px-10">
                     {activeTab === 'my-creativity' &&
                         <Text variant="bodySmall" className={'text-secondary-900 tracking-wide mb-5'}>
                             NOTE - Slangs created by you will be listed here.
@@ -323,7 +326,7 @@ const HomeTemplate = () => {
                             NOTE - Slangs will be sorted based on number of likes.
                         </Text>
                     }
-                    <div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3  gap-10">
+                    <div className="w-full grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 lg:gap-10 gap-5">
                         {activeTab === "my-creativity" && (
                             <AddSlangCard handleAddSlang={hanldeOpenAddSlagModal} />
                         )}
