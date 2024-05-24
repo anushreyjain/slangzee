@@ -9,7 +9,7 @@ import React, { useEffect, useState } from "react";
 import Toaster from "@/components/Toaster";
 import { toast } from "react-toastify";
 import { useUser } from "@auth0/nextjs-auth0/client";
-import { approveSlangAPI, bookmarkedSlangAPI, getAllSlangs, getSingleSlang, likeSlangAPI } from "@/apis/slangs.api";
+import { approveSlangAPI, bookmarkedSlangAPI, deleteSlangAPI, getAllSlangs, getSingleSlang, likeSlangAPI } from "@/apis/slangs.api";
 import AddSlangCard from "@/organisms/AddSlangCard";
 import Loader from "@/organisms/Loader";
 import SlangDetailsModal from "@/organisms/SlangDetailsModal";
@@ -68,21 +68,12 @@ const HomeTemplate = () => {
 
     const handleDeleteSlang = async (e, id) => {
         e.stopPropagation();
-
         try {
-            const res = await fetch(`http://localhost:3000/api/slangs/${id}`, {
-                method: "DELETE",
-            });
-
-            if (!res.ok) {
-                toast("Failed to delete slang");
-            } else {
-                dispatch(deleteSlang(id)); // Dispatch the deleteSlang action with the deleted slang ID
-                toast("Slang Deleted");
-            }
+            dispatch(deleteSlang(id));
+            const res = await deleteSlangAPI(id);
         } catch (error) {
-            console.error("Error deleting slang:", error);
-            toast("Failed to delete slang");
+            console.error("Failed to delete a slang", error);
+            toast(error.message);
         }
     };
 

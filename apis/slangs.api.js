@@ -1,7 +1,5 @@
 import { generateApiUrl } from "@/functions/common";
 
-
-
 export const getAllSlangs = async (getAllSlangConfig) => {
     const mySlangs = getAllSlangConfig?.mySlangs;
     const isApproved = getAllSlangConfig?.isApproved;
@@ -32,7 +30,7 @@ export const getSingleSlang = async (id) => {
 
 export const likeSlangAPI = async (id) => {
     try {
-        let apiUrl = `http://localhost:3000/api/slangs/${id}/likes`;
+        let apiUrl = generateApiUrl("LIKE_SLANG", {}, { id });
         const res = await fetch(apiUrl, {
             method: "PUT",
             cache: "no-store",
@@ -46,9 +44,25 @@ export const likeSlangAPI = async (id) => {
     }
 };
 
+
+export const deleteSlangAPI = async (id) => {
+    try {
+        let apiUrl = generateApiUrl("DELETE_SLANG", {}, { id });
+        const res = await fetch(apiUrl, {
+            method: "DELETE",
+        });
+        if (!res.ok) {
+            throw new Error("Failed to delete a slang");
+        }
+        return res.json();
+    } catch (error) {
+        throw new Error("Failed to delete a slang", error);
+    }
+};
+
 export const bookmarkedSlangAPI = async (id) => {
     try {
-        let apiUrl = `http://localhost:3000/api/slangs/${id}/bookmark`;
+        let apiUrl = generateApiUrl("BOOKMARK_SLANG", {}, { id });
         const res = await fetch(apiUrl, {
             method: "PUT",
             cache: "no-store",
@@ -65,7 +79,7 @@ export const bookmarkedSlangAPI = async (id) => {
 
 export const approveSlangAPI = async (id) => {
     try {
-        let apiUrl = `http://localhost:3000/api/slangs/${id}/approve`;
+        let apiUrl = generateApiUrl("APPROVE_SLANG", {}, { id });
         const res = await fetch(apiUrl, {
             method: "PUT",
             cache: "no-store",
@@ -78,3 +92,4 @@ export const approveSlangAPI = async (id) => {
         throw new Error("Failed to approve a slang", error);
     }
 };
+

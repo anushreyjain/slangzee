@@ -1,5 +1,6 @@
 import { handleAuth, handleCallback } from "@auth0/nextjs-auth0";
 import User from "@/app/(models)/User";
+import { BASE_URL } from "@/functions/common";
 
 const afterCallback = async (req, session, state) => {
   const user = session.user;
@@ -26,6 +27,6 @@ const afterCallback = async (req, session, state) => {
 export const GET = handleAuth({
   callback: handleCallback({
     afterCallback,
-    redirectUri: "http://localhost:3000",
+      redirectUri: BASE_URL,
   }),
 });

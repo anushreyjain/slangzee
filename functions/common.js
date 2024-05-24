@@ -1,10 +1,12 @@
-
-const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL
+export const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
 const ALL_APIS = {
     GET_ALL_SLANG: `${BASE_URL}/api/slangs`,
     GET_SINGLE_SLANG: `${BASE_URL}/api/slangs/{id}`,
     LIKE_SLANG: `${BASE_URL}/api/slangs/{id}/likes`,
+    BOOKMARK_SLANG: `${BASE_URL}/api/slangs/{id}/bookmark`,
+    APPROVE_SLANG: `${BASE_URL}/api/slangs/{id}/approve`,
+    DELETE_SLANG: `${BASE_URL}/api/slangs/{id}`,
 }
 
 export function generateApiUrl(path, queries, variables) {
