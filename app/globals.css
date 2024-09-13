@@ -2,6 +2,28 @@
 @tailwind components;
 @tailwind utilities;
 
+body::-webkit-scrollbar,
+.scrollbar::-webkit-scrollbar {
+  width: 7px;
+}
+
+body::-webkit-scrollbar:horizontal,
+.scrollbar::-webkit-scrollbar:horizontal {
+  height: 7px;
+}
+
+body::-webkit-scrollbar-track,
+.scrollbar::-webkit-scrollbar-track {
+  background-color: #1c1c1c;
+}
+
+body::-webkit-scrollbar-thumb,
+.scrollbar::-webkit-scrollbar-thumb {
+  background: #2d2d2d;
+  border-radius: 16px;
+  outline: none;
+}
+
 .three-line-clamp {
   display: -webkit-box;
   -webkit-line-clamp: 3;

@@ -31,7 +31,7 @@ export default function DialogBox({
 
         <div
           ref={dialogRef}
-          className={`inline-block ${width}  border border-customGray-900 bg-black max-h-[90vh] 
+          className={`inline-block ${width} border border-customGray-900 bg-black max-h-[90vh] 
           md:max-h-max px-4 py-6 md:pb-9 md:p-9 flex-1 text-left 
           drop-shadow-xl transform transition-all md:rounded rounded-t-lg md:rounded-t 
           overflow-auto  md:overflow-hidden h-[60vh]`}

@@ -16,7 +16,7 @@ const SlangDetailsModal = ({
                 closeModal={closeModal}
                 isDisable={true}
                 zIndex="z-50"
-                className="h-[90vh]"
+                className=""
                 width={"min-w-[50vw] lg:max-w-[50vw]"}
             >
                 <div className="flex flex-col items-start space-y-6 md:space-y-8 w-full relative ">
@@ -27,7 +27,7 @@ const SlangDetailsModal = ({
                             </Heading>
                             <Heading
                                 type="h4"
-                                className="text-white-800 font-semibold mt-0.5"
+                                className="text-white-800 font-semibold mt-0.5 break-all"
                             >
                                 {slangDetails.title}
                             </Heading>
@@ -36,6 +36,7 @@ const SlangDetailsModal = ({
                             clickHandler={(e) => {
                                 closeModal();
                             }}
+                        
                             iconColor={"#767676"}
                             iconName={"close"}
                         />
@@ -47,7 +48,7 @@ const SlangDetailsModal = ({
                         </Heading>
                         <Heading
                             type="h5"
-                            className="font-medium mt-0.5"
+                            className="font-medium mt-0.5 break-all"
                         >
                             {slangDetails.description}
                         </Heading>

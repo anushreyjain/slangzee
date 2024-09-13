@@ -80,7 +80,7 @@ const SlangForm = ({
               value={isEdit.editable ? "Update" : "Submit"}
               className="active:scale-90 rounded bg-customGray-900 text-white-800 
               cursor-pointer hover:drop-shadow-xl py-2 px-3 md:py-3 md:px-6 transition-all 
-              duration-200 "
+              duration-200 hover:text-secondary-900 "
             />
           </form>
         </div>

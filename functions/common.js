@@ -20,9 +20,6 @@ export function generateApiUrl(path, queries, variables) {
         }
         return value;
     });
-
-    console.log('apiUrl', apiUrl);
-
     if (queries) {
         const queryString = Object.entries(queries)
             .filter(([key, value]) => value !== undefined)

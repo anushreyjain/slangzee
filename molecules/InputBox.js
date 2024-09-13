@@ -25,7 +25,7 @@ const InputBox = forwardRef(
       <div className={`relative w-full ${wrapperClasses}`}>
         {label && (
           <label
-            className={`text-white-800 text-base md:text-xl font-medium ${labelClass}`}
+            className={`text-secondary-900 text-base md:text-xl font-medium ${labelClass}`}
           >
             {label}
           </label>

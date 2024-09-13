@@ -17,7 +17,7 @@ const IconWithContainer = ({
    ${
      isClickable ? " cursor-pointer hover:scale-105 active:scale-95" : ""
    }  transition-all duration-200 group
-     relative flex justify-center items-center ${property.className}`}
+     relative flex justify-center items-center flex-shrink-0 ${property.className}`}
     >
       <IcomoonIcon icon={iconName} size={"100%"} color={iconColor} />
     </div>

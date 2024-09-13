@@ -23,7 +23,7 @@ const TextareaInput = forwardRef(
       <div className={`relative w-full ${wrapperClasses}`}>
         {label && (
           <label
-            className={`text-white-800 text-base md:text-xl font-medium ${labelClass}`}
+            className={`text-secondary-900 text-base md:text-xl font-medium ${labelClass}`}
           >
             {label}
           </label>
@@ -31,8 +31,9 @@ const TextareaInput = forwardRef(
         <textarea
           className={`w-full px-3 text-sm md:text-base py-2 outline-none
          bg-customGray-900 rounded border border-transparent
-             focus:border-customGray-800 placeholder:text-customGray-700 mt-2 ${property.className}`}
+             focus:border-customGray-800 placeholder:text-customGray-700 scrollbar mt-2  resize-none ${property.className}`}
           id={id}
+          rows={4 }
           placeholder={placeholder}
           {...(register && { ...register(dbName) })}
           {...{
