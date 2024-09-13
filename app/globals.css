@@ -4,12 +4,12 @@
 
 body::-webkit-scrollbar,
 .scrollbar::-webkit-scrollbar {
-  width: 7px;
+  width: 5px;
 }
 
 body::-webkit-scrollbar:horizontal,
 .scrollbar::-webkit-scrollbar:horizontal {
-  height: 7px;
+  height: 5px;
 }
 
 body::-webkit-scrollbar-track,
