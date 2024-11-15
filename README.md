@@ -1,36 +1,93 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# 🗨️ Slangzee 
 
-## Getting Started
+**Slangzee** is a platform for discovering and sharing creative slang words and their meanings. It’s designed to foster creativity while ensuring a respectful and engaging environment.
 
-First, run the development server:
+[Live Demo](https://slangzee.vercel.app/) 🚀
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+---
+
+## 🛠️ Tech Stack 
+
+- **Frontend & Backend**: Built using **Next.js**, with APIs implemented in **Next.js** itself.
+- **Styling**: The interface is powered by **Tailwind CSS**.
+- **Database**: Data management is handled using **MongoDB**.
+
+---
+
+## 🎯 Features 
+
+1. **Authentication**:
+   - User login is managed through **Auth0**.
+
+2. **Slang Submission Workflow**:
+   - Users can submit slangs, which enter a **pending state** until reviewed by an admin.
+   - Pending slangs are marked with a **yellow clock badge** and are visible only in the **"My Creativity"** section.
+   - Once approved, the **clock badge is replaced with a green approval badge**, and the slang becomes visible in the **"Everything"** tab.
+
+3. **Tabs**:
+   - **Everything**: Displays all approved slangs for everyone.
+   - **Trending**: Shows slangs sorted by likes, with the most liked slang appearing at the top.
+   - **My Creativity** (Logged-In Users): Displays slangs submitted by the user, both approved and pending.
+   - **Saved** (Logged-In Users): Lists all slangs bookmarked by the user.
+
+4. **Public Access**:
+   - Non-logged-in users can access the **Everything** and **Trending** tabs.
+
+5. **User Features (Logged-In)**:
+   - Like, bookmark, and submit slangs.
+
+6. **Content Moderation**:
+   - A system to detect and block racial or hate content before approval.
+
+---
+
+## 🌐 Required Environment Variables 
+
+To run this app, ensure the following environment variables are configured:
+
+```env
+AUTH0_BASE_URL=YOUR_AUTH0_BASE_URL
+NEXT_PUBLIC_BASE_URL=YOUR_NEXT_PUBLIC_BASE_URL
+AUTH0_CLIENT_ID=YOUR_AUTH0_CLIENT_ID
+AUTH0_CLIENT_SECRET=YOUR_AUTH0_CLIENT_SECRET
+MONGODB_URI=YOUR_MONGODB_URI
+AUTH0_SECRET=YOUR_AUTH0_SECRET
+AUTH0_ISSUER_BASE_URL=YOUR_AUTH0_ISSUER_BASE_URL
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+## ⚙️ Installation
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+Follow these steps to set up the app locally:
 
-## Learn More
+1. **Clone the repository:**
 
-To learn more about Next.js, take a look at the following resources:
+    ```bash
+    git clone https://github.com/anushreyjain/slangzee.git
+    cd slangzee
+    ```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+2. **Install dependencies:**
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+    ```bash
+    npm install
+    ```
 
-## Deploy on Vercel
+3. **Set up environment variables:**
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+   - Create a .env.local file and add the required variables.
+  
+4. **Run the development server:**
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+    ```bash
+    npm run dev
+    ```
+
+5. **Visit: :** [http://localhost:3000](http://localhost:3000) in your browser.
+
+---
+
+## ✍️ Contribution
+We welcome your contributions to improve Slangzee! Feel free to fork the repository, create a feature branch, and submit a pull request.
+    
