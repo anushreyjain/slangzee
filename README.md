@@ -2,6 +2,10 @@
 
 **Slangzee** is a platform for discovering and sharing creative slang words and their meanings. It’s designed to foster creativity while ensuring a respectful and engaging environment.
 
+### 🎉 Try It Out! 
+I invite you to explore the live demo and share your creativity by submitting your own unique slangs. I would be thrilled to read and approve them!
+Start contributing your slang creations on Slangzee! 
+
 [Live Demo](https://slangzee.vercel.app/) 🚀
 
 ---
