@@ -32,11 +32,13 @@ import {
   updateSlang,
 } from "@/redux/slices/slangSlice";
 import Text from "@/atoms/Text";
+import { useRouter } from "next/navigation";
 
 const HomeTemplate = () => {
   const slangs = useSelector((state) => state.slangs);
   const loader = useSelector((state) => state.loader);
   const dispatch = useDispatch();
+  const router = useRouter();
   const [addSlangModal, setAddSlangModal] = useState(false);
   const [slangDetails, setSlangDetails] = useState({
     slangDetails: null,
@@ -44,6 +46,7 @@ const HomeTemplate = () => {
   });
   const [isEdit, setIsEdit] = useState({ id: null, editable: false });
   const { user, error, isLoading } = useUser();
+
   const [activeTab, setActiveTab] = useState("everything");
   const {
     register,
@@ -156,31 +159,35 @@ const HomeTemplate = () => {
   const tabs = [
     { id: 1, title: "Everything", value: "everything", icon: "house" },
     { id: 2, title: "Trending", value: "trending", icon: "fire" },
+    {
+      id: 3,
+      title: "My Creativity",
+      value: "my-creativity",
+      icon: "brush",
+    },
+    { id: 4, title: "Saved", value: "saved", icon: "bookmark" },
   ];
+
   if (user) {
-    if (user.role === "user") {
-      tabs.push(
-        {
-          id: 3,
-          title: "My Creativity",
-          value: "my-creativity",
-          icon: "brush",
-        },
-        { id: 4, title: "Saved", value: "saved", icon: "bookmark" }
-      );
-    }
+    // if (user.role === "user") {
+    //   tabs.push(
+    //     {
+    //       id: 3,
+    //       title: "My Creativity",
+    //       value: "my-creativity",
+    //       icon: "brush",
+    //     },
+    //     { id: 4, title: "Saved", value: "saved", icon: "bookmark" }
+    //   );
+    // }
 
     if (user.role === "admin") {
-      tabs.push(
-        {
-          id: 3,
-          title: "My Creativity",
-          value: "my-creativity",
-          icon: "brush",
-        },
-        { id: 4, title: "Saved", value: "saved", icon: "bookmark" },
-        { id: 5, title: "Submission", value: "submission", icon: "save" }
-      );
+      tabs.push({
+        id: 5,
+        title: "Submission",
+        value: "submission",
+        icon: "save",
+      });
     }
   }
 
@@ -259,6 +266,10 @@ const HomeTemplate = () => {
   }, [activeTab]);
 
   const tabHandler = (value) => {
+    if (!user && (value === "my-creativity" || value === "saved")) {
+      router.push("/api/auth/login");
+      return;
+    }
     setActiveTab(value);
   };
 

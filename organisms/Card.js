@@ -1,6 +1,7 @@
 import Heading from "@/atoms/Heading";
 import Text from "@/atoms/Text";
 import IconWithContainer from "@/molecules/IconWithContainer";
+import { useRouter } from "next/navigation";
 import React from "react";
 
 const Card = ({
@@ -13,6 +14,11 @@ const Card = ({
   activeTab,
   handleOpenCard,
 }) => {
+  const router = useRouter();
+  const handleRouteToLogin = (e) => {
+    e.stopPropagation();
+    router.push("/api/auth/login");
+  };
   return (
     <div
       onClick={(e, id) => {
@@ -25,14 +31,14 @@ const Card = ({
         <Heading type="h5" className="w-full truncate">
           {slang.title}
         </Heading>
-        {user && slang.isApproved && (
+        {slang.isApproved && (
           <IconWithContainer
             clickHandler={(e) => {
-              handleBookmark(e, slang._id);
+              user ? handleBookmark(e, slang._id) : handleRouteToLogin(e);
             }}
             iconColor={slang.isBookmarked ? "#767676" : "#404040"}
             iconName={
-              slang.isBookmarked.includes(user._id)
+              slang.isBookmarked.includes(user?._id)
                 ? "bookmark"
                 : "bookmark-outline"
             }
@@ -48,20 +54,20 @@ const Card = ({
       </div>
       <div className="icons flex items-center justify-between mt-5 ">
         <div className="flex items-center space-x-1">
-          {user && slang.isApproved && (
+          {slang.isApproved && (
             <IconWithContainer
               clickHandler={(e) => {
-                handleLikeSlang(e, slang._id);
+                user ? handleLikeSlang(e, slang._id): handleRouteToLogin(e);
               }}
               iconColor={slang.isLiked ? "#767676" : "#404040"}
               iconName={
-                slang.isLiked.includes(user._id) ? "heart" : "heart-outline"
+                slang.isLiked.includes(user?._id) ? "heart" : "heart-outline"
               }
             />
           )}
           {slang.isApproved && (
             <Text variant="caption" className={"text-customGray-700"}>
-              {slang.isLiked.length} {!user && "Likes"}
+              {slang.isLiked.length}
             </Text>
           )}
         </div>

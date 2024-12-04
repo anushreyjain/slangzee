@@ -12,7 +12,7 @@ const Logo = ({ width, height, ...property }) => {
       onClick={handleLogo}
       className={`${width || "lg:w-[15rem] w-[10rem]"} ${
         height || "h-[4.625rem]"
-      } relative cursor-pointer ${property.className}`}
+      } relative ${property.className}`}
     >
       <Image src={"/Logo.svg"} alt="" layout="fill" />
     </div>
