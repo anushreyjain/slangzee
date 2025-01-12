@@ -33,6 +33,7 @@ import {
 } from "@/redux/slices/slangSlice";
 import Text from "@/atoms/Text";
 import { useRouter } from "next/navigation";
+import IcomoonIcon from "@/components/IcomoonIcon";
 
 const HomeTemplate = () => {
   const slangs = useSelector((state) => state.slangs);
@@ -273,6 +274,15 @@ const HomeTemplate = () => {
     setActiveTab(value);
   };
 
+  const handleFloatingAddSlang = () => {
+    if (!user) {
+      router.push("/api/auth/login");
+      return;
+    }
+
+    hanldeOpenAddSlagModal();
+  };
+
   const handleOpenCard = async (e, id) => {
     const { foundSlang } = await getSingleSlang(id);
     setSlangDetails({ slangDetails: foundSlang, isVisible: true });
@@ -326,13 +336,13 @@ const HomeTemplate = () => {
       {loader ? (
         <Loader />
       ) : (
-        <div className="h-[calc(100svh-13rem)] scrollbar lg:h-[calc(100svh-18rem)] overflow-y-auto lg:px-10">
+        <div className="h-[calc(100svh-13rem)] relative scrollbar lg:h-[calc(100svh-18rem)] overflow-y-auto lg:px-10">
           {activeTab === "everything" && (
             <Text
               variant="bodySmall"
               className={"text-secondary-900 tracking-wide mb-5"}
             >
-              Slangs posted by everyone will be listed here.
+            Slangs approved and posted by everyone will be listed here.
             </Text>
           )}
           {activeTab === "my-creativity" && (
@@ -378,6 +388,14 @@ const HomeTemplate = () => {
                 slang={slang}
               />
             ))}
+          </div>
+
+          <div
+            onClick={handleFloatingAddSlang}
+            className="rounded-lg px-4 right-5 lg:right-20
+           fixed bottom-3 lg:bottom-10 cursor-pointer hover:scale-95 transition-all py-3 border border-secondary-900"
+          >
+            <IcomoonIcon icon={"plus"} size={20} color={"#f79d65"} />
           </div>
         </div>
       )}
