@@ -4,16 +4,37 @@ import Logo from "@/atoms/Logo";
 import Image from "next/image";
 import { useUser } from "@auth0/nextjs-auth0/client";
 import { useRouter } from "next/navigation";
+import axios from "axios";
 
 const Navbar = ({ ...property }) => {
   const { user, error, isLoading: authLoading } = useUser();
   const router = useRouter();
   const [isTransitioning, setIsTransitioning] = useState(false);
+  const [apiResponse, setApiResponse] = useState(null);
+  const [isApiLoading, setIsApiLoading] = useState(false);
 
   const handleLoginButton = async () => {
     setIsTransitioning(true);
-    const route = user ? "/api/auth/logout" : "/api/auth/login";
-    router.push(route);
+    if (user) {
+      // Use window.location for logout to ensure proper redirect handling
+      window.location.href = "/api/auth/logout";
+    } else {
+      // Use window.location for login as well
+      window.location.href = "/api/auth/login";
+    }
+  };
+
+  const handleApiCall = async () => {
+    setIsApiLoading(true); // Set loading state for API call
+    try {
+      const response = await axios.get("http://localhost:3001/slangs");
+      console.log("data", response.data);
+      setApiResponse(response.data); // Set the response data to state
+    } catch (error) {
+      console.error("Error fetching data from API:", error);
+    } finally {
+      setIsApiLoading(false); // Reset loading state after the API call completes
+    }
   };
 
   const isLoading = authLoading || isTransitioning;
@@ -21,8 +42,19 @@ const Navbar = ({ ...property }) => {
   return (
     <div className="pt-1 lg:pt-5 flex items-center justify-between border-b border-customGray-900">
       <Logo />
+      <button
+        onClick={handleApiCall}
+        className="bg-customGray-800 text-white py-2 px-4 rounded hover:bg-customGray-700"
+        disabled={isApiLoading}
+      >
+        {isApiLoading ? "Loading..." : "Get Slangs"}
+      </button>
       <div className="flex gap-8">
-        <a className="hidden md:block" href="https://github.com/anushreyjain/slangzee" target="_blank">
+        <a
+          className="hidden md:block"
+          href="https://github.com/anushreyjain/slangzee"
+          target="_blank"
+        >
           <LinkButton
             onClickHandler={() => {}}
             className="uppercase"
